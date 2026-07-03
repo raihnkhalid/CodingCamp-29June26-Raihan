@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List Life Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- User Name Popup Modal -->
+    <div id="namePopup" class="modal hidden">
+        <div class="modal-content">
+            <h2>Welcome to Your Dashboard</h2>
+            <p>What should we call you?</p>
+            <input type="text" id="nameInput" placeholder="Enter your name" />
+            <div class="modal-buttons">
+                <button id="submitNameBtn">Submit</button>
+                <button id="guestBtn">Continue as Guest</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Theme Toggle -->
+    <div id="themeToggle" class="theme-toggle">
+        <button id="themeToggleBtn" aria-label="Toggle theme">
+            <span class="theme-icon">🌙</span>
+        </button>
+    </div>
+
+    <!-- Main Dashboard Container -->
+    <div class="dashboard-container">
+        <!-- Header Section with Greeting -->
+        <header>
+            <div id="greetingModule" class="greeting-module">
+                <div id="timeDisplay" class="time-display">12:00 AM</div>
+                <div id="dateDisplay" class="date-display">Monday, January 1</div>
+                <div id="greetingMessage" class="greeting-message">Good morning, Guest</div>
+            </div>
+        </header>
+
+        <!-- Main Content Grid -->
+        <main class="main-content">
+            <!-- Focus Timer Module -->
+            <section id="timerModule" class="timer-module module-card">
+                <h2>Focus Timer</h2>
+                <div class="timer-display">
+                    <div id="timerClock" class="timer-clock">25:00</div>
+                </div>
+                <div class="timer-controls">
+                    <button id="startBtn" class="btn btn-primary">Start</button>
+                    <button id="stopBtn" class="btn btn-secondary">Stop</button>
+                    <button id="resetBtn" class="btn btn-secondary">Reset</button>
+                    <button id="setDurationBtn" class="btn btn-secondary">Set Duration</button>
+                </div>
+                <div id="durationInputContainer" class="duration-input-container hidden">
+                    <input type="number" id="durationInput" min="1" max="60" placeholder="Minutes (1-60)" />
+                    <button id="saveDurationBtn" class="btn btn-small">Save</button>
+                    <button id="cancelDurationBtn" class="btn btn-small">Cancel</button>
+                </div>
+                <div id="timerMessage" class="timer-message"></div>
+            </section>
+
+            <!-- Tasks Module -->
+            <section id="tasksModule" class="tasks-module module-card">
+                <div class="module-header">
+                    <h2>Tasks</h2>
+                    <div class="sort-controls">
+                        <label for="sortSelect">Sort by:</label>
+                        <select id="sortSelect">
+                            <option value="creation">Creation Order</option>
+                            <option value="status">Status</option>
+                            <option value="alphabetical">Alphabetical</option>
+                        </select>
+                    </div>
+                </div>
+                <form id="taskForm" class="task-form">
+                    <input type="text" id="taskInput" placeholder="Add a new task..." />
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </form>
+                <div id="taskError" class="error-message hidden"></div>
+                <ul id="taskList" class="task-list"></ul>
+            </section>
+
+            <!-- Quick Links Module -->
+            <section id="linksModule" class="links-module module-card">
+                <h2>Quick Links</h2>
+                <form id="linkForm" class="link-form">
+                    <input type="text" id="urlInput" placeholder="URL (https://...)" />
+                    <input type="text" id="labelInput" placeholder="Link label" />
+                    <button type="submit" class="btn btn-primary">Add Link</button>
+                </form>
+                <div id="linkError" class="error-message hidden"></div>
+                <div id="linkList" class="link-list"></div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2024 To-Do List Life Dashboard</p>
+        </footer>
+    </div>
+
+    <!-- Storage Error Message -->
+    <div id="storageError" class="storage-error hidden">
+        <p>This application requires browser storage to function. Please enable cookies and local storage in your browser settings.</p>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
