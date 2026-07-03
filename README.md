@@ -2,6 +2,8 @@
 
 A calm daily dashboard for focus, tasks, and quick links. Built with vanilla HTML, CSS, and JavaScript — no frameworks, no build tools.
 
+**[Try it live](https://raihnkhalid.github.io/CodingCamp-29June26-Raihan/)**
+
 ## Features
 
 - **Focus Timer** — Pomodoro-style timer with custom duration
