@@ -3,70 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To-Do List Life Dashboard</title>
+    <title>Onit — Your day. On it.</title>
+    <meta name="description" content="Onit is a calm daily dashboard for your focus timer, tasks, and quick links. Your day. On it.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <!-- User Name Popup Modal -->
-    <div id="namePopup" class="modal hidden">
+    <div id="namePopup" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
         <div class="modal-content">
-            <h2>Welcome to Your Dashboard</h2>
+            <div class="modal-brand">
+                <span class="modal-wordmark">Onit</span>
+            </div>
+            <h2 id="popupTitle">Welcome to Onit</h2>
             <p>What should we call you?</p>
-            <input type="text" id="nameInput" placeholder="Enter your name" />
+            <input type="text" id="nameInput" placeholder="Enter your name" aria-label="Your name" />
             <div class="modal-buttons">
-                <button id="submitNameBtn">Submit</button>
-                <button id="guestBtn">Continue as Guest</button>
+                <button id="guestBtn" class="btn btn-secondary">Continue as Guest</button>
+                <button id="submitNameBtn" class="btn btn-primary">Get Started</button>
             </div>
         </div>
     </div>
 
-    <!-- Theme Toggle -->
-    <div id="themeToggle" class="theme-toggle">
-        <button id="themeToggleBtn" aria-label="Toggle theme">
-            <span class="theme-icon">🌙</span>
-        </button>
-    </div>
+    <!-- Hero Band — the single dark indigo "night" moment -->
+    <header class="hero-band">
+        <div class="hero-inner">
+            <div class="hero-top-row">
+                <div class="hero-brand">
+                    <span class="hero-wordmark">Onit</span>
+                    <span class="hero-tagline">Your day. On it.</span>
+                </div>
+                <button id="themeToggleBtn" class="button-icon-circular" aria-label="Toggle theme">
+                    <span class="theme-icon" id="themeIcon"></span>
+                </button>
+            </div>
+            <div id="greetingModule" class="hero-greeting">
+                <div class="hero-greeting-text">
+                    <div id="timeDisplay" class="hero-time">12:00 AM</div>
+                    <div id="dateDisplay" class="hero-date">Monday, January 1</div>
+                    <div id="greetingMessage" class="hero-message">Good morning, Guest</div>
+                </div>
+                <div class="hero-illustration">
+                    <img src="assets/focus-illustration.svg" alt="" aria-hidden="true" />
+                </div>
+            </div>
+        </div>
+    </header>
 
     <!-- Main Dashboard Container -->
     <div class="dashboard-container">
-        <!-- Header Section with Greeting -->
-        <header>
-            <div id="greetingModule" class="greeting-module">
-                <div id="timeDisplay" class="time-display">12:00 AM</div>
-                <div id="dateDisplay" class="date-display">Monday, January 1</div>
-                <div id="greetingMessage" class="greeting-message">Good morning, Guest</div>
-            </div>
-        </header>
-
         <!-- Main Content Grid -->
         <main class="main-content">
             <!-- Focus Timer Module -->
-            <section id="timerModule" class="timer-module module-card">
-                <h2>Focus Timer</h2>
+            <section id="timerModule" class="module-card">
+                <div class="module-header">
+                    <h2>Focus Timer</h2>
+                </div>
                 <div class="timer-display">
                     <div id="timerClock" class="timer-clock">25:00</div>
                 </div>
                 <div class="timer-controls">
-                    <button id="startBtn" class="btn btn-primary">Start</button>
-                    <button id="stopBtn" class="btn btn-secondary">Stop</button>
-                    <button id="resetBtn" class="btn btn-secondary">Reset</button>
-                    <button id="setDurationBtn" class="btn btn-secondary">Set Duration</button>
+                    <button id="timerToggleBtn" class="btn btn-primary">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>
+                        Start
+                    </button>
+                    <button id="resetBtn" class="btn btn-utility">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"></path><path d="M3 3v5h5"></path></svg>
+                        Reset
+                    </button>
+                    <button id="setDurationBtn" class="btn btn-utility">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                        Set Duration
+                    </button>
                 </div>
                 <div id="durationInputContainer" class="duration-input-container hidden">
-                    <input type="number" id="durationInput" min="1" max="60" placeholder="Minutes (1-60)" />
-                    <button id="saveDurationBtn" class="btn btn-small">Save</button>
-                    <button id="cancelDurationBtn" class="btn btn-small">Cancel</button>
+                    <input type="number" id="durationInput" min="1" max="60" placeholder="Minutes (1-60)" aria-label="Timer duration in minutes" />
+                    <button id="saveDurationBtn" class="btn btn-small btn-primary">Save</button>
+                    <button id="cancelDurationBtn" class="btn btn-small btn-utility">Cancel</button>
                 </div>
-                <div id="timerMessage" class="timer-message"></div>
+                <div id="timerMessage" class="timer-message" role="status" aria-live="polite"></div>
             </section>
 
             <!-- Tasks Module -->
-            <section id="tasksModule" class="tasks-module module-card">
+            <section id="tasksModule" class="module-card">
                 <div class="module-header">
                     <h2>Tasks</h2>
                     <div class="sort-controls">
-                        <label for="sortSelect">Sort by:</label>
-                        <select id="sortSelect">
+                        <label for="sortSelect">Sort by</label>
+                        <select id="sortSelect" aria-label="Sort tasks by">
                             <option value="creation">Creation Order</option>
                             <option value="status">Status</option>
                             <option value="alphabetical">Alphabetical</option>
@@ -74,34 +100,42 @@
                     </div>
                 </div>
                 <form id="taskForm" class="task-form">
-                    <input type="text" id="taskInput" placeholder="Add a new task..." />
-                    <button type="submit" class="btn btn-primary">Add</button>
+                    <input type="text" id="taskInput" placeholder="Add a new task…" aria-label="New task description" />
+                    <button type="submit" class="btn btn-primary">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        Add
+                    </button>
                 </form>
-                <div id="taskError" class="error-message hidden"></div>
+                <div id="taskError" class="error-message hidden" role="alert"></div>
                 <ul id="taskList" class="task-list"></ul>
             </section>
 
             <!-- Quick Links Module -->
-            <section id="linksModule" class="links-module module-card">
-                <h2>Quick Links</h2>
+            <section id="linksModule" class="module-card">
+                <div class="module-header">
+                    <h2>Quick Links</h2>
+                </div>
                 <form id="linkForm" class="link-form">
-                    <input type="text" id="urlInput" placeholder="URL (https://...)" />
-                    <input type="text" id="labelInput" placeholder="Link label" />
-                    <button type="submit" class="btn btn-primary">Add Link</button>
+                    <input type="text" id="urlInput" placeholder="URL (https://…)" aria-label="Quick link URL" />
+                    <input type="text" id="labelInput" placeholder="Link label" aria-label="Quick link label" />
+                    <button type="submit" class="btn btn-primary">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        Add Link
+                    </button>
                 </form>
-                <div id="linkError" class="error-message hidden"></div>
+                <div id="linkError" class="error-message hidden" role="alert"></div>
                 <div id="linkList" class="link-list"></div>
             </section>
         </main>
-
-        <!-- Footer -->
-        <footer>
-            <p>&copy; 2024 To-Do List Life Dashboard</p>
-        </footer>
     </div>
 
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>Onit — Your day. On it.</p>
+    </footer>
+
     <!-- Storage Error Message -->
-    <div id="storageError" class="storage-error hidden">
+    <div id="storageError" class="storage-error hidden" role="alert">
         <p>This application requires browser storage to function. Please enable cookies and local storage in your browser settings.</p>
     </div>
 

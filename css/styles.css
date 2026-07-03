@@ -1,86 +1,682 @@
+/* ==========================================================================
+   Onit — Notion-inspired design system
+   All tokens trace back to DESIGN.md. No orphan hex codes, no magic px values.
+   ========================================================================== */
+
 /* ===========================
-   CSS Variables and Reset
+   Design Tokens (DESIGN.md)
    =========================== */
 
 :root {
-    /* Light Theme Colors */
-    --bg-primary: #ffffff;
-    --bg-secondary: #f5f5f5;
-    --bg-card: #ffffff;
-    --text-primary: #333333;
-    --text-secondary: #666666;
-    --border-color: #e0e0e0;
-    --accent-color: #4a90e2;
-    --accent-hover: #357abd;
-    --success-color: #5cb85c;
-    --danger-color: #d9534f;
-    --warning-color: #f0ad4e;
-    --shadow: rgba(0, 0, 0, 0.1);
+    /* --- Colors: Brand & Accent --- */
+    --color-primary: #0075de;          /* Notion Blue — single structural accent */
+    --color-primary-active: #005bab;   /* Pressed Blue */
+    --color-secondary: #213183;        /* Deep Indigo — hero "night" band */
+    --color-on-primary: #ffffff;
+
+    /* --- Sticker palette (decorative only — never paint structure) --- */
+    --accent-sky: #62aef0;
+    --accent-purple: #d6b6f6;
+    --accent-purple-deep: #391c57;
+    --accent-pink: #ff64c8;
+    --accent-orange: #dd5b00;
+    --accent-orange-deep: #793400;
+    --accent-teal: #2a9d99;
+    --accent-green: #1aae39;
+    --accent-brown: #523410;
+
+    /* --- Colors: Surface (light theme) --- */
+    --color-canvas: #ffffff;
+    --color-canvas-soft: #f6f5f4;      /* Warm Paper — signature page canvas */
+    --color-surface: #ffffff;
+    --color-hairline: #e6e6e6;
+
+    /* --- Colors: Text (light theme) --- */
+    --color-ink: rgba(0, 0, 0, 0.95);           /* Ink — soft true-black */
+    --color-ink-secondary: #31302e;              /* Warm Charcoal */
+    --color-ink-muted: #615d59;                  /* Stone */
+    --color-ink-faint: #a39e98;                  /* Ash */
+
+    /* --- Semantic --- */
+    --color-error: #d9534f;
+    --color-error-bg: #fdecec;
+    --color-success: #1aae39;            /* sticker-green carries affirmative status */
+
+    /* --- Typography --- */
+    --font-family: 'Inter', -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+
+    /* Type scale — sizes, weights, line-heights, letter-spacing from DESIGN.md */
+    --text-display-1: 64px;          /* 700 / 1.0 / -2.125px */
+    --text-display-2: 54px;          /* 700 / 1.04 / -1.875px */
+    --text-heading-1: 40px;          /* 700 / 1.1 / -1px */
+    --text-heading-2: 26px;          /* 700 / 1.23 / -0.625px */
+    --text-heading-3: 22px;          /* 700 / 1.27 / -0.25px */
+    --text-title: 20px;              /* 600 / 1.4 / -0.125px */
+    --text-body-md: 16px;            /* 400 / 1.5 / 0 */
+    --text-body-sm: 15px;            /* 400 / 1.33 / 0 */
+    --text-button: 16px;             /* 500 / 1.5 / 0 */
+    --text-caption: 14px;            /* 400 / 1.43 / 0 */
+    --text-eyebrow: 12px;            /* 600 / 1.33 / 0.125px */
+
+    --tracking-display-1: -2.125px;
+    --tracking-display-2: -1.875px;
+    --tracking-heading-1: -1px;
+    --tracking-heading-2: -0.625px;
+    --tracking-heading-3: -0.25px;
+    --tracking-title: -0.125px;
+    --tracking-eyebrow: 0.125px;
+
+    --leading-display-1: 1.0;
+    --leading-display-2: 1.04;
+    --leading-heading-1: 1.1;
+    --leading-heading-2: 1.23;
+    --leading-heading-3: 1.27;
+    --leading-title: 1.4;
+    --leading-body-md: 1.5;
+    --leading-body-sm: 1.33;
+    --leading-button: 1.5;
+    --leading-caption: 1.43;
+    --leading-eyebrow: 1.33;
+
+    /* --- Rounded --- */
+    --rounded-xs: 4px;
+    --rounded-sm: 5px;
+    --rounded-md: 8px;
+    --rounded-lg: 12px;
+    --rounded-xl: 16px;
+    --rounded-full: 9999px;
+
+    /* --- Spacing (base unit 8px) --- */
+    --space-xxs: 4px;
+    --space-xs: 8px;
+    --space-sm: 12px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 28px;
+    --space-xxl: 32px;
+
+    /* --- Elevation: barely-there layered shadows --- */
+    --shadow-soft: 0 0.175px 1.041px rgba(0,0,0,0.01), 0 0 0.8px 2.925px rgba(0,0,0,0.02), 0 2.025px 7.847px rgba(0,0,0,0.027), 0 4px 18px rgba(0,0,0,0.04);
+    --shadow-elevated: 0 0.175px 1.041px rgba(0,0,0,0.01), 0 0 0.8px 2.925px rgba(0,0,0,0.02), 0 2.025px 7.847px rgba(0,0,0,0.027), 0 23px 52px rgba(0,0,0,0.05);
+
+    /* --- Layout --- */
+    --container-max: 1200px;
 }
+
+/* ===========================
+   Dark Theme Overrides
+   Derived Notion-dark — same blue accent, warm dark surfaces
+   =========================== */
 
 body.dark-theme {
-    /* Dark Theme Colors */
-    --bg-primary: #1a1a1a;
-    --bg-secondary: #2d2d2d;
-    --bg-card: #2d2d2d;
-    --text-primary: #e0e0e0;
-    --text-secondary: #a0a0a0;
-    --border-color: #404040;
-    --accent-color: #5a9fd4;
-    --accent-hover: #4a8fc4;
-    --success-color: #6cc56c;
-    --danger-color: #e9645f;
-    --warning-color: #f5b85e;
-    --shadow: rgba(0, 0, 0, 0.3);
+    --color-canvas: #1f1f1d;
+    --color-canvas-soft: #191918;
+    --color-surface: #2d2d2b;
+    --color-hairline: rgba(255, 255, 255, 0.094);
+
+    --color-ink: rgba(255, 255, 255, 0.95);
+    --color-ink-secondary: #d4d3cf;
+    --color-ink-muted: #9b9893;
+    --color-ink-faint: #6b6863;
+
+    --color-error-bg: #3d2424;
+
+    --shadow-soft: 0 0.175px 1.041px rgba(0,0,0,0.2), 0 0 0.8px 2.925px rgba(0,0,0,0.25), 0 2.025px 7.847px rgba(0,0,0,0.3), 0 4px 18px rgba(0,0,0,0.4);
+    --shadow-elevated: 0 0.175px 1.041px rgba(0,0,0,0.2), 0 0 0.8px 2.925px rgba(0,0,0,0.25), 0 2.025px 7.847px rgba(0,0,0,0.3), 0 23px 52px rgba(0,0,0,0.5);
 }
 
-* {
+/* ===========================
+   Reset & Base
+   =========================== */
+
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+html {
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    line-height: 1.6;
+    font-family: var(--font-family);
+    font-size: var(--text-body-md);
+    line-height: var(--leading-body-md);
+    background-color: var(--color-canvas-soft);
+    color: var(--color-ink);
+    font-feature-settings: "lnum" 1, "locl" 1;
     transition: background-color 0.3s ease, color 0.3s ease;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+input, select {
+    font-family: inherit;
+}
+
+ul {
+    list-style: none;
 }
 
 /* ===========================
-   Theme Toggle
+   Hero Band — deep indigo "night" moment
    =========================== */
 
-.theme-toggle {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
+.hero-band {
+    background-color: var(--color-secondary);
+    color: var(--color-on-primary);
+    padding: var(--space-xxl) var(--space-md);
 }
 
-#themeToggleBtn {
-    background: var(--bg-card);
-    border: 2px solid var(--border-color);
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    cursor: pointer;
+.hero-inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px var(--shadow);
+    flex-direction: column;
+    gap: var(--space-xl);
 }
 
-#themeToggleBtn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 12px var(--shadow);
+.hero-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hero-brand {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-sm);
+}
+
+.hero-wordmark {
+    font-size: var(--text-heading-1);
+    font-weight: 700;
+    line-height: var(--leading-heading-1);
+    letter-spacing: var(--tracking-heading-1);
+    color: var(--color-on-primary);
+}
+
+.hero-tagline {
+    font-size: var(--text-body-sm);
+    font-weight: 400;
+    line-height: var(--leading-body-sm);
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.hero-greeting {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-lg);
+}
+
+.hero-greeting-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.hero-illustration {
+    flex-shrink: 0;
+    max-width: 360px;
+}
+
+.hero-illustration img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.hero-time {
+    font-size: var(--text-display-1);
+    font-weight: 700;
+    line-height: var(--leading-display-1);
+    letter-spacing: var(--tracking-display-1);
+    color: var(--color-on-primary);
+    font-variant-numeric: tabular-nums;
+}
+
+.hero-date {
+    font-size: var(--text-title);
+    font-weight: 600;
+    line-height: var(--leading-title);
+    letter-spacing: var(--tracking-title);
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.hero-message {
+    font-size: var(--text-heading-3);
+    font-weight: 700;
+    line-height: var(--leading-heading-3);
+    letter-spacing: var(--tracking-heading-3);
+    color: var(--color-on-primary);
+    margin-top: var(--space-xs);
 }
 
 /* ===========================
-   Modal Styles
+   Theme Toggle — icon-circular
+   =========================== */
+
+.button-icon-circular {
+    background-color: rgba(255, 255, 255, 0.12);
+    color: var(--color-on-primary);
+    border: none;
+    border-radius: var(--rounded-full);
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.button-icon-circular:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.button-icon-circular:active {
+    transform: scale(0.9);
+}
+
+.button-icon-circular svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* ===========================
+   Dashboard Container
+   =========================== */
+
+.dashboard-container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: var(--space-xxl) var(--space-md);
+    flex: 1;
+}
+
+/* ===========================
+   Main Content Grid
+   =========================== */
+
+.main-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: var(--space-lg);
+}
+
+/* ===========================
+   Module Card — feature-card
+   =========================== */
+
+.module-card {
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--rounded-lg);
+    padding: var(--space-lg);
+    transition: box-shadow 0.2s ease;
+}
+
+.module-card:hover {
+    box-shadow: var(--shadow-soft);
+}
+
+.module-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-lg);
+    gap: var(--space-sm);
+}
+
+.module-header h2 {
+    font-size: var(--text-heading-3);
+    font-weight: 700;
+    line-height: var(--leading-heading-3);
+    letter-spacing: var(--tracking-heading-3);
+    color: var(--color-ink);
+}
+
+/* ===========================
+   Buttons
+   =========================== */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xxs);
+    font-size: var(--text-button);
+    font-weight: 500;
+    line-height: var(--leading-button);
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--rounded-md);
+    transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+    white-space: nowrap;
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+.btn-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+/* button-primary — pill CTA, Notion blue */
+.btn-primary {
+    background-color: var(--color-primary);
+    color: var(--color-on-primary);
+    border-radius: var(--rounded-full);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primary-active);
+}
+
+/* button-secondary — white surface, pill */
+.btn-secondary {
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--rounded-full);
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-canvas-soft);
+}
+
+/* button-utility — tighter 8px radius */
+.btn-utility {
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--rounded-md);
+    padding: 4px 14px;
+}
+
+.btn-utility:hover {
+    background-color: var(--color-canvas-soft);
+}
+
+.btn-small {
+    padding: 6px 14px;
+    font-size: var(--text-caption);
+}
+
+/* btn-danger — destructive action, kept muted on rest, red on hover */
+.btn-danger {
+    background-color: transparent;
+    color: var(--color-error);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--rounded-md);
+    padding: 4px 10px;
+    font-size: var(--text-caption);
+}
+
+.btn-danger:hover {
+    background-color: var(--color-error-bg);
+}
+
+/* ===========================
+   Focus Timer Module
+   =========================== */
+
+.timer-display {
+    display: flex;
+    justify-content: center;
+    margin-bottom: var(--space-lg);
+}
+
+.timer-clock {
+    font-size: var(--text-display-1);
+    font-weight: 700;
+    line-height: var(--leading-display-1);
+    letter-spacing: var(--tracking-display-1);
+    color: var(--color-ink);
+    font-variant-numeric: tabular-nums;
+}
+
+.timer-controls {
+    display: flex;
+    gap: var(--space-xs);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.duration-input-container {
+    margin-top: var(--space-md);
+    display: flex;
+    gap: var(--space-xs);
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.duration-input-container.hidden {
+    display: none;
+}
+
+.duration-input-container input {
+    padding: 6px;
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--rounded-xs);
+    font-size: var(--text-body-sm);
+    width: 160px;
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+}
+
+.timer-message {
+    margin-top: var(--space-md);
+    text-align: center;
+    font-size: var(--text-body-sm);
+    color: var(--color-ink-muted);
+    min-height: var(--space-xl);
+}
+
+/* ===========================
+   Tasks Module
+   =========================== */
+
+.sort-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.sort-controls label {
+    font-size: var(--text-caption);
+    color: var(--color-ink-muted);
+    font-weight: 500;
+}
+
+.sort-controls select {
+    padding: 4px 8px;
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--rounded-xs);
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    font-size: var(--text-body-sm);
+    cursor: pointer;
+}
+
+.task-form {
+    display: flex;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-sm);
+}
+
+.task-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    background-color: var(--color-canvas-soft);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--rounded-md);
+    transition: background-color 0.15s ease;
+}
+
+.task-item:hover {
+    background-color: var(--color-hairline);
+}
+
+.task-item.completed {
+    opacity: 0.55;
+}
+
+.task-item.completed .task-description {
+    text-decoration: line-through;
+    text-decoration-color: var(--color-ink-faint);
+}
+
+.task-checkbox {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--color-primary);
+    flex-shrink: 0;
+}
+
+.task-description {
+    flex: 1;
+    color: var(--color-ink);
+    font-size: var(--text-body-sm);
+    line-height: var(--leading-body-sm);
+}
+
+.task-actions {
+    display: flex;
+    gap: var(--space-xxs);
+}
+
+/* ===========================
+   Quick Links Module
+   =========================== */
+
+.link-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-md);
+}
+
+.link-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+}
+
+.link-item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: 6px 14px;
+    background-color: var(--color-surface);
+    color: var(--color-primary);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--rounded-full);
+    font-size: var(--text-eyebrow);
+    font-weight: 600;
+    letter-spacing: var(--tracking-eyebrow);
+    text-decoration: none;
+    transition: background-color 0.15s ease, box-shadow 0.15s ease;
+    cursor: pointer;
+}
+
+.link-item:hover {
+    box-shadow: var(--shadow-soft);
+}
+
+.link-label {
+    cursor: pointer;
+}
+
+.link-delete {
+    background: none;
+    border: none;
+    color: var(--color-ink-faint);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    padding: 0;
+    line-height: 0;
+    border-radius: var(--rounded-xs);
+}
+
+.link-delete:hover {
+    color: var(--color-error);
+}
+
+.link-delete svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* ===========================
+   Text Inputs — text-input primitive
+   =========================== */
+
+input[type="text"],
+input[type="number"] {
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    font-size: var(--text-body-sm);
+    line-height: var(--leading-body-sm);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--rounded-xs);
+    padding: 6px 8px;
+    transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-soft);
+}
+
+.task-form input[type="text"] {
+    flex: 1;
+    padding: 8px 10px;
+}
+
+.link-form input[type="text"] {
+    padding: 8px 10px;
+}
+
+/* ===========================
+   Modal
    =========================== */
 
 .modal {
@@ -94,6 +690,7 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 2000;
+    padding: var(--space-md);
 }
 
 .modal.hidden {
@@ -101,400 +698,77 @@ body {
 }
 
 .modal-content {
-    background: var(--bg-card);
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 8px 24px var(--shadow);
-    max-width: 400px;
-    width: 90%;
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    padding: var(--space-xl);
+    border-radius: var(--rounded-xl);
+    box-shadow: var(--shadow-elevated);
+    max-width: 420px;
+    width: 100%;
     text-align: center;
 }
 
+.modal-brand {
+    margin-bottom: var(--space-md);
+}
+
+.modal-wordmark {
+    font-size: var(--text-heading-2);
+    font-weight: 700;
+    line-height: var(--leading-heading-2);
+    letter-spacing: var(--tracking-heading-2);
+    color: var(--color-primary);
+}
+
 .modal-content h2 {
-    margin-bottom: 10px;
-    color: var(--text-primary);
+    font-size: var(--text-heading-3);
+    font-weight: 700;
+    line-height: var(--leading-heading-3);
+    letter-spacing: var(--tracking-heading-3);
+    color: var(--color-ink);
+    margin-bottom: var(--space-xs);
 }
 
 .modal-content p {
-    margin-bottom: 20px;
-    color: var(--text-secondary);
+    font-size: var(--text-body-sm);
+    color: var(--color-ink-muted);
+    margin-bottom: var(--space-lg);
 }
 
 .modal-content input {
     width: 100%;
-    padding: 12px;
-    margin-bottom: 20px;
-    border: 2px solid var(--border-color);
-    border-radius: 8px;
-    font-size: 16px;
-    background: var(--bg-primary);
-    color: var(--text-primary);
+    padding: 8px 10px;
+    margin-bottom: var(--space-lg);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--rounded-xs);
+    font-size: var(--text-body-sm);
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+}
+
+.modal-content input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-soft);
 }
 
 .modal-buttons {
     display: flex;
-    gap: 10px;
+    gap: var(--space-xs);
     justify-content: center;
 }
 
 /* ===========================
-   Dashboard Container
-   =========================== */
-
-.dashboard-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-/* ===========================
-   Header and Greeting Module
-   =========================== */
-
-header {
-    text-align: center;
-    padding: 40px 20px;
-    margin-bottom: 30px;
-}
-
-.greeting-module {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
-
-.time-display {
-    font-size: 48px;
-    font-weight: bold;
-    color: var(--text-primary);
-}
-
-.date-display {
-    font-size: 20px;
-    color: var(--text-secondary);
-    margin-bottom: 10px;
-}
-
-.greeting-message {
-    font-size: 28px;
-    color: var(--accent-color);
-    font-weight: 500;
-}
-
-/* ===========================
-   Main Content Grid
-   =========================== */
-
-.main-content {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 24px;
-    margin-bottom: 40px;
-}
-
-.module-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 24px;
-    box-shadow: 0 2px 8px var(--shadow);
-    transition: box-shadow 0.3s ease;
-}
-
-.module-card:hover {
-    box-shadow: 0 4px 16px var(--shadow);
-}
-
-.module-card h2 {
-    margin-bottom: 20px;
-    color: var(--text-primary);
-    font-size: 24px;
-}
-
-/* ===========================
-   Timer Module
-   =========================== */
-
-.timer-display {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-.timer-clock {
-    font-size: 64px;
-    font-weight: bold;
-    color: var(--accent-color);
-    font-family: 'Courier New', monospace;
-}
-
-.timer-controls {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.duration-input-container {
-    margin-top: 16px;
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-}
-
-.duration-input-container.hidden {
-    display: none;
-}
-
-.duration-input-container input {
-    padding: 8px;
-    border: 2px solid var(--border-color);
-    border-radius: 6px;
-    font-size: 14px;
-    width: 150px;
-    background: var(--bg-primary);
-    color: var(--text-primary);
-}
-
-.timer-message {
-    margin-top: 16px;
-    text-align: center;
-    font-size: 16px;
-    min-height: 24px;
-}
-
-/* ===========================
-   Tasks Module
-   =========================== */
-
-.module-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.module-header h2 {
-    margin-bottom: 0;
-}
-
-.sort-controls {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.sort-controls label {
-    font-size: 14px;
-    color: var(--text-secondary);
-}
-
-.sort-controls select {
-    padding: 6px 10px;
-    border: 2px solid var(--border-color);
-    border-radius: 6px;
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    cursor: pointer;
-}
-
-.task-form {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 12px;
-}
-
-.task-form input {
-    flex: 1;
-    padding: 12px;
-    border: 2px solid var(--border-color);
-    border-radius: 8px;
-    font-size: 16px;
-    background: var(--bg-primary);
-    color: var(--text-primary);
-}
-
-.task-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.task-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    transition: background-color 0.2s ease;
-}
-
-.task-item:hover {
-    background: var(--border-color);
-}
-
-.task-item.completed {
-    opacity: 0.6;
-}
-
-.task-item.completed .task-description {
-    text-decoration: line-through;
-}
-
-.task-checkbox {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-}
-
-.task-description {
-    flex: 1;
-    color: var(--text-primary);
-}
-
-.task-actions {
-    display: flex;
-    gap: 8px;
-}
-
-/* ===========================
-   Links Module
-   =========================== */
-
-.link-form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 16px;
-}
-
-.link-form input {
-    padding: 12px;
-    border: 2px solid var(--border-color);
-    border-radius: 8px;
-    font-size: 16px;
-    background: var(--bg-primary);
-    color: var(--text-primary);
-}
-
-.link-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.link-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 16px;
-    background: var(--accent-color);
-    color: white;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: background-color 0.2s ease;
-    cursor: pointer;
-}
-
-.link-item:hover {
-    background: var(--accent-hover);
-}
-
-.link-delete {
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-    font-size: 18px;
-    line-height: 1;
-    padding: 0;
-    margin-left: 4px;
-}
-
-.link-delete:hover {
-    opacity: 0.8;
-}
-
-/* ===========================
-   Buttons
-   =========================== */
-
-.btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-weight: 500;
-}
-
-.btn-primary {
-    background: var(--accent-color);
-    color: white;
-}
-
-.btn-primary:hover {
-    background: var(--accent-hover);
-}
-
-.btn-secondary {
-    background: var(--bg-secondary);
-    color: var(--text-primary);
-    border: 2px solid var(--border-color);
-}
-
-.btn-secondary:hover {
-    background: var(--border-color);
-}
-
-.btn-small {
-    padding: 6px 12px;
-    font-size: 14px;
-}
-
-.btn-success {
-    background: var(--success-color);
-    color: white;
-}
-
-.btn-success:hover {
-    opacity: 0.9;
-}
-
-.btn-danger {
-    background: var(--danger-color);
-    color: white;
-}
-
-.btn-danger:hover {
-    opacity: 0.9;
-}
-
-.btn-warning {
-    background: var(--warning-color);
-    color: white;
-}
-
-.btn-warning:hover {
-    opacity: 0.9;
-}
-
-/* ===========================
-   Error Messages
+   Error & Status Messages
    =========================== */
 
 .error-message {
-    color: var(--danger-color);
-    font-size: 14px;
-    margin-top: 8px;
-    padding: 8px;
-    background: rgba(217, 83, 79, 0.1);
-    border-radius: 6px;
+    color: var(--color-error);
+    font-size: var(--text-caption);
+    margin-top: var(--space-xs);
+    padding: var(--space-xs) var(--space-sm);
+    background-color: var(--color-error-bg);
+    border-radius: var(--rounded-xs);
 }
 
 .error-message.hidden {
@@ -506,14 +780,15 @@ header {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: var(--danger-color);
-    color: white;
-    padding: 20px;
-    border-radius: 12px;
+    background-color: var(--color-error);
+    color: var(--color-on-primary);
+    padding: var(--space-lg);
+    border-radius: var(--rounded-lg);
     text-align: center;
     max-width: 500px;
     z-index: 3000;
-    box-shadow: 0 8px 24px var(--shadow);
+    box-shadow: var(--shadow-elevated);
+    font-size: var(--text-body-sm);
 }
 
 .storage-error.hidden {
@@ -524,12 +799,14 @@ header {
    Footer
    =========================== */
 
-footer {
+.site-footer {
+    background-color: var(--color-canvas-soft);
+    color: var(--color-ink-secondary);
+    font-size: var(--text-caption);
+    line-height: var(--leading-caption);
+    padding: var(--space-xxl);
     text-align: center;
-    padding: 20px;
-    color: var(--text-secondary);
-    font-size: 14px;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--color-hairline);
 }
 
 /* ===========================
@@ -537,30 +814,96 @@ footer {
    =========================== */
 
 @media (max-width: 768px) {
+    .hero-band {
+        padding: var(--space-lg) var(--space-md);
+    }
+
+    .hero-inner {
+        gap: var(--space-lg);
+    }
+
+    .hero-brand {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+    }
+
+    .hero-tagline {
+        font-size: var(--text-caption);
+    }
+
+    .hero-time {
+        font-size: var(--text-display-2);
+        letter-spacing: var(--tracking-display-2);
+        line-height: var(--leading-display-2);
+    }
+
+    .hero-message {
+        font-size: var(--text-title);
+        letter-spacing: var(--tracking-title);
+        line-height: var(--leading-title);
+        font-weight: 600;
+    }
+
+    .hero-greeting {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .hero-illustration {
+        display: none;
+    }
+
     .main-content {
         grid-template-columns: 1fr;
     }
 
-    .time-display {
-        font-size: 36px;
-    }
-
-    .date-display {
-        font-size: 16px;
-    }
-
-    .greeting-message {
-        font-size: 22px;
-    }
-
     .timer-clock {
-        font-size: 48px;
+        font-size: var(--text-display-2);
+        letter-spacing: var(--tracking-display-2);
+        line-height: var(--leading-display-2);
     }
 
     .module-header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 10px;
+        gap: var(--space-xs);
+    }
+
+    .task-form {
+        flex-direction: column;
+    }
+
+    .task-form .btn {
+        align-self: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-top-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-sm);
+    }
+
+    .timer-controls {
+        flex-direction: column;
+    }
+
+    .timer-controls .btn {
+        width: 100%;
+    }
+}
+
+/* ===========================
+   Reduced Motion
+   =========================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
     }
 }
 

@@ -132,10 +132,13 @@ const ThemeManager = {
             document.body.classList.remove('dark-theme');
         }
         StorageManager.setTheme(theme);
-        
-        // Update theme icon
-        const themeIcon = document.querySelector('.theme-icon');
-        themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+
+        const themeIcon = document.getElementById('themeIcon');
+        if (theme === 'dark') {
+            themeIcon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>';
+        } else {
+            themeIcon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
+        }
     },
 
     getCurrent() {
@@ -224,7 +227,6 @@ const TimerModule = {
     },
 
     init() {
-        // Load custom duration if exists
         const savedDuration = StorageManager.getTimerDuration();
         if (savedDuration) {
             this.state.duration = savedDuration * 60;
@@ -232,20 +234,41 @@ const TimerModule = {
         }
 
         this.updateDisplay();
+        this.updateToggleButton();
 
-        // Set up event listeners
-        document.getElementById('startBtn').addEventListener('click', () => this.start());
-        document.getElementById('stopBtn').addEventListener('click', () => this.stop());
+        document.getElementById('timerToggleBtn').addEventListener('click', () => this.toggle());
         document.getElementById('resetBtn').addEventListener('click', () => this.reset());
         document.getElementById('setDurationBtn').addEventListener('click', () => this.showDurationInput());
         document.getElementById('saveDurationBtn').addEventListener('click', () => this.setCustomDuration());
         document.getElementById('cancelDurationBtn').addEventListener('click', () => this.hideDurationInput());
     },
 
+    toggle() {
+        if (this.state.running) {
+            this.stop();
+        } else {
+            this.start();
+        }
+    },
+
+    updateToggleButton() {
+        const btn = document.getElementById('timerToggleBtn');
+        if (this.state.running) {
+            btn.className = 'btn btn-secondary';
+            btn.setAttribute('aria-label', 'Stop timer');
+            btn.innerHTML = '<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="4" width="4" height="16" rx="1"></rect><rect x="14" y="4" width="4" height="16" rx="1"></rect></svg>Stop';
+        } else {
+            btn.className = 'btn btn-primary';
+            btn.setAttribute('aria-label', 'Start timer');
+            btn.innerHTML = '<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>Start';
+        }
+    },
+
     start() {
         if (!this.state.running) {
             this.state.running = true;
             this.state.intervalId = setInterval(() => this.tick(), 1000);
+            this.updateToggleButton();
         }
     },
 
@@ -256,6 +279,7 @@ const TimerModule = {
                 clearInterval(this.state.intervalId);
                 this.state.intervalId = null;
             }
+            this.updateToggleButton();
         }
     },
 
@@ -278,19 +302,16 @@ const TimerModule = {
     handleComplete() {
         this.stop();
         this.showMessage('Timer completed!', 'success');
-        
-        // Try to show notification
+
         if ('Notification' in window && Notification.permission === 'granted') {
             new Notification('Focus Timer Complete', {
-                body: 'Your focus session has ended!',
-                icon: '⏰'
+                body: 'Your focus session has ended!'
             });
         } else if ('Notification' in window && Notification.permission !== 'denied') {
             Notification.requestPermission().then(permission => {
                 if (permission === 'granted') {
                     new Notification('Focus Timer Complete', {
-                        body: 'Your focus session has ended!',
-                        icon: '⏰'
+                        body: 'Your focus session has ended!'
                     });
                 }
             });
@@ -339,7 +360,7 @@ const TimerModule = {
     showMessage(message, type) {
         const messageEl = document.getElementById('timerMessage');
         messageEl.textContent = message;
-        messageEl.style.color = type === 'success' ? 'var(--success-color)' : 'var(--danger-color)';
+        messageEl.style.color = type === 'success' ? 'var(--color-success)' : 'var(--color-error)';
     },
 
     clearMessage() {
@@ -475,7 +496,7 @@ const TasksModule = {
             actions.className = 'task-actions';
 
             const editBtn = document.createElement('button');
-            editBtn.className = 'btn btn-small btn-secondary';
+            editBtn.className = 'btn btn-small btn-utility';
             editBtn.textContent = 'Edit';
             editBtn.addEventListener('click', () => this.editTask(task.id));
 
@@ -587,7 +608,8 @@ const LinksModule = {
 
             const deleteBtn = document.createElement('button');
             deleteBtn.className = 'link-delete';
-            deleteBtn.textContent = '×';
+            deleteBtn.setAttribute('aria-label', 'Delete link');
+            deleteBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
             deleteBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 this.deleteLink(link.id);
